@@ -37,18 +37,12 @@ INDENT  = $(shell (if indent --version 2>&1 | grep GNU > /dev/null; then echo in
 # BoringSSL is a C11 library and has less strict compiler flags than s2n. All other libcryptos use the default c99 flags
 ifeq ($(S2N_LIBCRYPTO), boringssl)
 	DEFAULT_CFLAGS = -std=c11
-else ifeq ($(S2N_LIBCRYPTO), awslc)
-	# AWS-LC is a BoringSSL derivative and has fixed the c11 issues but not all -Wcast-qual warnings
-	DEFAULT_CFLAGS = -std=c99
-else ifeq ($(S2N_LIBCRYPTO), awslc-fips)
-	# AWS-LC is a BoringSSL derivative and has fixed the c11 issues but not all -Wcast-qual warnings
-	DEFAULT_CFLAGS = -std=c99
 else
-	DEFAULT_CFLAGS = -std=c99 -Wcast-qual
+	DEFAULT_CFLAGS = -std=c99
 endif
 
 DEFAULT_CFLAGS += -pedantic -Wall -Werror -Wimplicit -Wunused -Wcomment -Wchar-subscripts -Wuninitialized \
-                 -Wshadow  -Wcast-align -Wwrite-strings -fPIC -Wno-missing-braces\
+                 -Wshadow  -Wcast-align -Wcast-qual -Wwrite-strings -fPIC -Wno-missing-braces\
                  -D_POSIX_C_SOURCE=200809L -O2 -I$(LIBCRYPTO_ROOT)/include/ \
                  -I$(S2N_ROOT)/api/ -I$(S2N_ROOT) -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security \
                  -D_FORTIFY_SOURCE=2 -fgnu89-inline -fvisibility=hidden -DS2N_EXPORTS

@@ -136,7 +136,7 @@ set(CMAKE_C_FLAGS_DEBUGOPT "")
 
 target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wall -Wimplicit -Wunused -Wcomment -Wchar-subscripts
         -Wuninitialized -Wshadow -Wcast-align -Wwrite-strings -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security
-        -Wno-missing-braces -Wsign-compare -Wno-strict-prototypes -Wa,--noexecstack
+        -Wno-missing-braces -Wcast-qual -Wsign-compare -Wno-strict-prototypes -Wa,--noexecstack
 )
 
 if (S2N_WERROR_ALL)
@@ -208,11 +208,6 @@ if(TSAN OR ASAN OR UBSAN)
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
-
-if (NOT $ENV{S2N_LIBCRYPTO} MATCHES "awslc")
-    # add cast-qual back in for non AWS-LC
-    target_compile_options(${PROJECT_NAME} PRIVATE -Wcast-qual)
-endif()
 
 if (COVERAGE)
     # https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html

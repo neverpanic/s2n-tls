@@ -32,11 +32,11 @@ source codebuild/bin/jobs.sh
 
 # These tags represents the latest versions that S2N is compatible
 # with. It prevents our build system from breaking when AWS-LC
-# is updated, last done on 2023-02-22.
+# is updated, last done on 2024-08-06.
 if [ "$IS_FIPS" == "1" ]; then
   AWSLC_VERSION=AWS-LC-FIPS-1.0.3
 else
-  AWSLC_VERSION=v1.17.4
+  AWSLC_VERSION=v1.33.0
 fi
 mkdir -p "$BUILD_DIR"||true
 cd "$BUILD_DIR"
